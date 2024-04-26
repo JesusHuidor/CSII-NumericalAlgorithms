@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runge Kutta</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="../CosmicStyle.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.4.0/math.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="cabecera">
+        <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../Activities.html">Actividades</a></li>
+                <li><a href="contacto.html">Info_Alumno</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+    <form id="dataForm">
+        <label for="funcion">Función de y (y'=f(x,y)):</label><br>
+        <input type="text" id="funcion" value="y"><br><br>
+
+        <label for="x0">Valor de x subcero:</label><br>
+        <input type="text" id="x0" value="0"><br><br>
+
+        <label for="a">Valor de y subcero:</label><br>
+        <input type="text" id="a" value="2"><br><br>
+
+        <label for="b">Valor de x final:</label><br>
+        <input type="text" id="b" value="5"><br><br>
+
+        <label for="n">Número de iteraciones:</label><br>
+        <input type="text" id="n" value="10" min="1" max="1e6"><br><br>
+
+        <input type="button" value="Runge-kuta 2 etapas" onclick="runge2()">
+        <input type="button" value="Runge-kuta 4 etapas" onclick="runge4()">
+    </form>
+
+    <div id="salida"></div>
+
+    <div class="info-box">
+        <p>El método de <strong>Runge-Kutta</strong> es un enfoque poderoso para resolver ecuaciones diferenciales ordinarias mediante una aproximación numérica. Proporciona soluciones precisas con menos pasos computacionales comparado con métodos más simples como el de Euler.</p>
+    </div>
+
+    <script type="text/javascript">
+        function runge2(){
+            funcion=document.getElementById("funcion").value;
+            x0=parseFloat(eval(document.getElementById("x0").value));
+            a=parseFloat(eval(document.getElementById("a").value));
+            b=parseFloat(eval(document.getElementById("b").value));
+            n=parseFloat(eval(document.getElementById("n").value));
+            h=(b-x0)/n;
+            x=x0;
+            y=a;
+            txt="<table><tr><td><b>n</b></td><td><b>x</b></td><td><b>y</b></td></tr><tr><td><b>0</b></td><td><b>"+x0+"</b></td><td><b>"+a+"</b></td></tr>";
+            for(i=1;i<=n;i++){
+                k1=eval(funcion.replace(/x/g,x).replace(/y/g,y));
+                xx=x+h;
+                yy=y+h*k1;
+                k2=eval(funcion.replace(/x/g,xx).replace(/y/g,yy));
+                y+=h*(k1+k2)/2;
+                x+=h;
+                txt+="<tr><td>"+i+"</td><td>"+x+"</td><td>"+y+"</td></tr>";
+            }
+            txt+="</table>";
+            document.getElementById('salida').innerHTML=txt;
+        }
+
+        function runge4(){
+            funcion=document.getElementById("funcion").value;
+            x0=parseFloat(eval(document.getElementById("x0").value));
+            a=parseFloat(eval(document.getElementById("a").value));
+            b=parseFloat(eval(document.getElementById("b").value));
+            n=parseFloat(eval(document.getElementById("n").value));
+            h=(b-x0)/n;
+            x=x0;
+            y=a;
+            txt="<table><tr><td><b>n</b></td><td><b>x</b></td><td><b>y</b></td></tr><tr><td><b>0</b></td><td><b>"+x0+"</b></td><td><b>"+a+"</b></td></tr>";
+
+            for(i=1;i<=n;i++){
+                k1=eval(funcion.replace(/x/g,x).replace(/y/g,y));
+                k2=eval(funcion.replace(/x/g,x+h/2).replace(/y/g,y+h*k1/2));
+                k3=eval(funcion.replace(/x/g,x+h/2).replace(/y/g,y+h*k2/2));
+                k4=eval(funcion.replace(/x/g,x+h).replace(/y/g,y+h*k3));
+
+                y+=h*(k1+2*k2+2*k3+k4)/6;
+                x+=h;
+                txt+="<tr><td>"+i+"</td><td>"+x+"</td><td>"+y+"</td></tr>";
+            }
+            txt+="</table>";
+            document.getElementById('salida').innerHTML=txt;
+        }
+    </script>
+</main>
+<footer>
+    <img src="../imagenes/logo.png" alt="Logo de Computo2">
+    <p class="copyright">
+        &#169 Jesús Alberto Gómez Huidor
+    </p>
+</footer>
+</body>
+</html>

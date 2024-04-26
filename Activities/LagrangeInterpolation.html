@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interpolaciones de Lagrange</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="../CosmicStyle.css">
+</head>
+<body>
+    <header>
+        <div class="cabecera">
+            <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../Activities.html">Actividades</a></li>
+                    <li><a href="contacto.html">Info_Alumno</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>Interpolación de Lagrange</h1>
+        <br><br>
+        <!-- Input field to specify the number of fields to create -->
+        <label for="quantity">Ingrese cuantos valores habrá para cada array:</label>
+        <input type="number" id="quantity" min="1">
+        <button onclick="createInputs()">Crear inputs</button>
+
+        <!-- Container to hold the dynamically created input fields -->
+        <div id="inputContainer">
+            <div class="column" id="column1"></div>
+            <div class="column" id="column2"></div>
+        </div>
+        <br>
+        <!-- Input field to specify the x value we are looking for -->
+        Valor de X con el que desea hacer la interpolación: <input type= "number" id="interValue">
+        <br>
+        <button onclick="lagrange()">Guardar e Interpolar</button>
+        <br><br>
+        <!--Container to hold the result -->
+        <div id="output"></div>
+
+        <div class="info-box">
+            <p>La <strong>Interpolación de Lagrange</strong> es un método polinómico para estimar los valores de una función basándose en varios puntos conocidos. Se utiliza frecuentemente cuando se necesitan nuevos puntos dentro del rango de un conjunto discreto de puntos conocidos.</p>
+        </div>
+    </main>
+
+    <footer>
+        <img src="../imagenes/logo.png" alt="Logo de Computo2">
+        <p class="copyright">
+            &#169 Jesús Alberto Gómez Huidor
+        </p>
+    </footer>
+</body>
+</html>
+
+<script>
+    /* This is an example of data of the growth of a plant we can use
+    const days = [1, 4, 6, 8, 10];
+    const heights = [5, 11.5, 18, 24.5, 30];
+    */
+    //Arrays to store the data of each axis provided
+    let arrayXGeneral = [];
+    let arrayYGeneral = [];
+
+    //Function called on the button that will store the data, perform the Lagrange interpolation and finally prints the results
+    function lagrange(){
+        storeValues();
+        const valueToPredict = document.getElementById("interValue").value;
+        lagrangeInterpolation(valueToPredict);
+        const predictedY = lagrangeInterpolation(valueToPredict);
+        console.log(`Predicted height of the plant on day ${valueToPredict} is: ${predictedY.toFixed(2)} cm`);
+        document.getElementById("output").innerHTML = "Para el valor x = " + valueToPredict + ",  el valor para Y es " + predictedY;
+    }
+
+    //This functions creates te inputs on the display page
+    function createInputs() {
+        const quantity = document.getElementById('quantity').value;
+        const column1 = document.getElementById('column1');
+        const column2 = document.getElementById('column2');
+
+        // Clear any existing inputs
+        column1.innerHTML = '';
+        column2.innerHTML = '';
+
+        for (let i = 0; i < quantity; i++) {
+            const input1 = document.createElement('input');
+            const input2 = document.createElement('input');
+
+            input1.type = 'text';
+            input2.type = 'text';
+
+            input1.placeholder = 'Valores en X - Valor ' + (i + 1);
+            input2.placeholder = 'Valores en Y - Valor ' + (i + 1);
+
+            column1.appendChild(input1);
+            column2.appendChild(input2);
+
+            column1.appendChild(document.createElement('br')); // Add a line break for better formatting
+            column2.appendChild(document.createElement('br'));
+        }
+    }
+
+    //This functions stores the values of the inputs
+    function storeValues() {
+        const column1 = document.getElementById('column1');
+        const column2 = document.getElementById('column2');
+
+        const inputs1 = column1.getElementsByTagName('input');
+        const inputs2 = column2.getElementsByTagName('input');
+
+        for (let input of inputs1) {
+            arrayXGeneral.push(input.value);
+        }
+
+        for (let input of inputs2) {
+            arrayYGeneral.push(input.value);
+        }
+        console.log("ArrayX values:", arrayXGeneral);
+        console.log("ArrayY values:", arrayYGeneral);
+    }
+
+    //Performs the Lagrange interpolation
+    function lagrangeInterpolation(x) {
+        let result = 0;
+        const n = arrayXGeneral.length;
+
+        for (let i = 0; i < n; i++) {
+            let term = arrayYGeneral[i];
+            for (let j = 0; j < n; j++) {
+                if (i != j) {
+                    term = term * (x - arrayXGeneral[j]) / (arrayXGeneral[i] - arrayXGeneral[j]);
+                }
+            }
+            result += term;
+        }
+
+        return result;
+    }
+
+</script>

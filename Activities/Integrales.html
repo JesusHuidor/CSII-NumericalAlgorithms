@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos de integración</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="../CosmicStyle.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.4.0/math.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="cabecera">
+        <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../Activities.html">Actividades</a></li>
+                <li><a href="contacto.html">Info_Alumno</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+    <h1>Métodos de Integración</h1>
+    <form id="dataForm">
+        <label for="funcionIntegrar">Función de x que desea integrar:</label><br>
+        <input type="text" id="funcionIntegrar" name="funcionIntegrar"><br><br>
+
+        <label for="limiteInferior">Limite inferior (a):</label><br>
+        <input type="text" id="limiteInferior" name="limiteInferior"><br><br>
+
+        <label for="limiteSuperior">Limite superior (b):</label><br>
+        <input type="text" id="limiteSuperior" name="limiteSuperior"><br><br>
+
+        <label for="iteraciones">Veces a iterar:</label><br>
+        <input type="text" id="iteraciones" name="iteraciones"><br><br>
+
+        <input type="button" value="Calcular por rectangulos" onclick="botonRectangulos()">
+        <input type="button" value="Calcular por trapecios" onclick="botonTrapecio()">
+    </form>
+
+    <div id="grafico" style="height: 500px;"></div>
+
+    <h2>Resultado</h2>
+    <p id="resultado"></p>
+
+    <div class="info-box">
+        <p>Los <strong>Métodos de Integración</strong> como el de Rectángulos y Trapecios son técnicas básicas para aproximar el valor de una integral. El método de Rectángulos utiliza la suma de áreas de rectángulos bajo la curva, mientras que el método de Trapecios utiliza trapecios, lo que generalmente proporciona una mejor aproximación.</p>
+    </div>
+
+
+    <script type="text/javascript">
+        //funcion llamada al presionar el boton "Calcular por rectangulos"
+        function botonRectangulos(){
+            var funcionIntegrar = document.getElementById("funcionIntegrar").value;
+            var limiteInferior = parseFloat(eval(document.getElementById("limiteInferior").value));
+            var limiteSuperior = parseFloat(eval(document.getElementById("limiteSuperior").value));
+            var iteraciones = parseFloat(eval(document.getElementById("iteraciones").value));
+
+            rectangulos(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones)
+            graficar(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones)
+        }
+        //funcion llamada al presionar el boton "Calcular por trapecios"
+        function botonTrapecio(){
+            var funcionIntegrar = document.getElementById("funcionIntegrar").value;
+            var limiteInferior = parseFloat(eval(document.getElementById("limiteInferior").value));
+            var limiteSuperior = parseFloat(eval(document.getElementById("limiteSuperior").value));
+            var iteraciones = parseFloat(eval(document.getElementById("iteraciones").value));
+
+            trapecios(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones)
+            graficar(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones)
+        }
+        //Función que realiza el calculo del area bajo la curva de la función por el método de rectangulos
+        function rectangulos(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones){
+            funcion=funcionIntegrar;
+            a=limiteInferior;
+            b=limiteSuperior;
+            n=iteraciones;
+            suma=0;
+            dx=(b-a)/n;
+            x=a;
+            for(i=0;i<n;i++){
+                x+=dx;
+                suma+=dx*eval(funcion.replace(/x/g,x));
+            }
+            document.getElementById("resultado").innerHTML= "El area bajo la curva es: " + (suma.toFixed(4));
+        }
+        // Función que realiza el cálculo del área bajo la curva de la función por el método de trapecios
+        function trapecios(funcionIntegrar, limiteInferior, limiteSuperior, iteraciones){
+            var funcion = funcionIntegrar;
+            var a = limiteInferior;
+            var b = limiteSuperior;
+            var n = iteraciones;
+            var suma = 0;
+            var dx = (b - a) / n;
+            var x = a;
+
+            suma += eval(funcion.replace(/x/g, a)) / 2;
+            for(var i = 1; i < n; i++){
+                x += dx;
+                suma += eval(funcion.replace(/x/g, x));
+            }
+            suma += eval(funcion.replace(/x/g, b)) / 2;
+            suma *= dx;
+
+            document.getElementById("resultado").innerHTML = "El area bajo la curva es: " + (suma.toFixed(4));
+        }
+
+        // Función que realiza las gráficas de la función que estamos integrate.
+        function graficar(funcionIntegrar, limiteInferior, limiteSuperior, iteraciones){
+            var xRange = [];
+            var yRange = [];
+            var dx = (limiteSuperior - limiteInferior) / iteraciones;
+            var x = limiteInferior;
+
+            for(var i = 0; i <= iteraciones; i++){
+                xRange.push(x);
+                yRange.push(eval(funcionIntegrar.replace(/x/g, x)));
+                x += dx;
+            }
+
+            var trace1 = {
+                x: xRange,
+                y: yRange,
+                type: 'scatter'
+            };
+
+            var data = [trace1];
+
+            Plotly.newPlot('grafico', data);
+        }
+    </script>
+</main>
+<footer>
+    <img src="../imagenes/logo.png" alt="Logo de Computo2">
+    <p class="copyright">
+        &#169 Jesús Alberto Gómez Huidor
+    </p>
+</footer>
+</body>
+</html>
+

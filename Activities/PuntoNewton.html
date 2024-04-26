@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Punto fijo y Newton Raphson</title>
+    <link rel="stylesheet" href="../reset.css">
+  <link rel="stylesheet" href="../CosmicStyle.css">
+</head>
+<body>
+  <header>
+    <div class="cabecera">
+      <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../Activities.html">Actividades</a></li>
+          <li><a href="contacto.html">Info_Alumno</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Punto fijo y Newton Rhapson</h1><br><br>
+
+    <b>fx = </b><input type="text" id="fx" value="x*x-5*x+6"><br>
+    x = <input type="text" id="gx" value="Math.sqrt(5*x-6)"><br>
+    f'(x) = <input type="text" id="dfx" value="2*x-5"><br>
+    x<sub>0</sub> = <input type="text" id="x0" value="2.45"><br>
+    n = <input type="text" id="n" value="5"><br><br>
+
+    <button onclick= "puntoFijoMethod()" >Punto Fijo</button>
+    <button onclick="newton()">Newton Raphson</button><br><br>
+
+    <div id="output" class="tableOutput"></div>
+
+    <div class="info-box">
+      <p>El <strong>Método de Punto Fijo</strong> se basa en reescribir una ecuación para que x = g(x) y usar iteraciones para encontrar un punto fijo. El <strong>Método Newton-Raphson</strong> es un algoritmo de búsqueda de raíces que utiliza la derivada de la función para converger rápidamente hacia una solución.</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <img src="../imagenes/logo.png" alt="Logo de Computo2">
+    <p class="copyright">
+      &#169 Jesús Alberto Gómez Huidor
+    </p>
+  </footer>
+</body>
+</html>
+
+<script>
+  //gets the values from the inputs
+  function storeValues() {
+    fx = document.getElementById("fx").value;
+    dfx = document.getElementById("dfx").value;
+    x0 = document.getElementById("x0").value;
+    n = document.getElementById("n").value;
+  }
+  //calls the pertinent functions in order to perform the punto fijo method
+  function  puntoFijoMethod(){
+    storeValues();
+    let resultado = puntoFijo(x0 , 0.001);
+    document.getElementById("output").innerHTML="El método converge en: " + resultado.valor + " con " + resultado.iteraciones + " iteraciones.";
+    console.log('Valor aproximado:', resultado.valor);
+    console.log('Número de iteraciones:', resultado.iteraciones);
+  }
+  //Is used to divide the function provided by his derivated
+  function g() {
+    return eval(fx.replace(/x/g,x0))/eval(dfx.replace(/x/g,x0));
+  }
+
+  //Performs the punto fijo methos and you provide the starting point "x0" and a tolerancy to check if it has converged
+  function puntoFijo(p0, tol) {
+    let i = 0;
+    while (i <= n) {
+      let p = g();
+
+      if (Math.abs(p - x0) < tol) {
+        return { valor: p, iteraciones: i };
+      }
+      i++;
+      x0 = p;
+    }
+    document.getElementById("output").innerHTML='El método no convergió después de ' + n + ' iteraciones';
+    throw new Error('El método no convergió después de ' + n + ' iteraciones');
+  }
+  //Performs the Newton Raphson method and prints a table with the results
+  function newton(){
+    storeValues();
+    tableNewtonOP = "<table><tr><td>N</td><td>x<sub>0</sub></td></tr>";
+    x0 = eval(x0);
+    for (let i = 0; i < n; i++) {
+      tableNewtonOP = tableNewtonOP + "<tr><td>"+i+"</td><td>"+ x0 + "</td></tr>";
+      const ev = g();
+      x0 = eval(x0 - ev);
+    }
+    tableNewtonOP = tableNewtonOP+"<tr><td>"+n+"</td><td>"+x0+"</td></tr>" + "</table>";
+
+
+    document.getElementById("output").innerHTML=tableNewtonOP;
+  }
+</script>

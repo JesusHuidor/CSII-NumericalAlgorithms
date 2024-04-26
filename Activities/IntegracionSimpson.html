@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integracion Simpson</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="../CosmicStyle.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.4.0/math.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="cabecera">
+        <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../Activities.html">Actividades</a></li>
+                <li><a href="contacto.html">Info_Alumno</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+    <h1>Integración por método Simpson</h1>
+
+    <form id="dataForm">
+        <label for="funcionIntegrar">Función de x que desea integrar:</label><br>
+        <input type="text" id="funcionIntegrar" name="funcionIntegrar"><br><br>
+
+        <label for="limiteInferior">Limite inferior (a):</label><br>
+        <input type="text" id="limiteInferior" name="limiteInferior"><br><br>
+
+        <label for="limiteSuperior">Limite superior (b):</label><br>
+        <input type="text" id="limiteSuperior" name="limiteSuperior"><br><br>
+
+        <label for="iteraciones">Subiteraciones (n):</label><br>
+        <input type="text" id="iteraciones" name="iteraciones"><br><br>
+
+        <input type="button" value="Calcular por Simpson 1/3" onclick="botonUnTercio()">
+        <input type="button" value="Calcular por Simpson 3/8" onclick="botonTresOctavos()">
+    </form>
+
+    <div id="grafico" style="height: 500px;"></div>
+
+    <h2>Resultado</h2>
+    <p id="resultado"></p>
+
+    <div class="info-box">
+        <p>La <strong>Integración por el Método de Simpson</strong> es una técnica que utiliza parábolas para aproximar áreas bajo curvas. Es especialmente útil cuando se necesita una alta precisión en el cálculo de integrales definidas y se conoce la función en varios puntos específicos.</p>
+    </div>
+
+
+    <script type="text/javascript">
+        //https://es.wikipedia.org/wiki/Regla_de_Simpson
+
+        function botonUnTercio(){
+            var funcionIntegrar = document.getElementById("funcionIntegrar").value;
+            var limiteInferior = parseFloat(eval(document.getElementById("limiteInferior").value));
+            var limiteSuperior = parseFloat(eval(document.getElementById("limiteSuperior").value));
+            var iteraciones = parseFloat(eval(document.getElementById("iteraciones").value));
+
+            simpson13(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones);
+            graficar(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones);
+        }
+        function botonTresOctavos(){
+            var funcionIntegrar = document.getElementById("funcionIntegrar").value;
+            var limiteInferior = parseFloat(eval(document.getElementById("limiteInferior").value));
+            var limiteSuperior = parseFloat(eval(document.getElementById("limiteSuperior").value));
+            var iteraciones = parseFloat(eval(document.getElementById("iteraciones").value));
+
+            simpson38(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones);
+            graficar(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones);
+        }
+
+        //Función que realiza el método de Simpson Un tercio
+        function simpson13(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones){
+            var funcion = funcionIntegrar;
+            var a = limiteInferior;
+            var b = limiteSuperior;
+            var n = iteraciones;
+            var suma=eval(funcion.replace(/x/g,a))+eval(funcion.replace(/x/g,b));
+
+            n = Math.round(n);
+            n -= n%2;
+            if(n<4){
+                n=4;
+            }
+            var h = (b-a)/n;
+            if(n>=4 && (n%2)==0){
+                for(k=1;k<=(n/2-1);k++){
+                    x=a+2*k*h;//i=2k
+                    suma+=2*eval(funcion.replace(/x/g,x));
+                }
+                for(k=1;k<=(n/2);k++){
+                    x=a+(2*k-1)*h;//i=2k-1
+                    suma+=4*eval(funcion.replace(/x/g,x));
+                }
+                suma *= h/3;
+
+                document.getElementById("resultado").innerHTML="El area bajo la curva por el método Simpson 1/3 es: " + (suma.toFixed(4))+" "+(n);
+            }else{
+                document.getElementById("resultado").innerHTML="n tiene que ser mayor o igual a 4 y debe de ser multiplo de 2";
+            }
+        }
+
+        //TODO:Función que haga el método de integración por Simpson tres octavos
+        function simpson38(funcionIntegrar,limiteInferior, limiteSuperior, iteraciones){
+            var funcion = funcionIntegrar;
+            var a = limiteInferior;
+            var b = limiteSuperior;
+            var n = iteraciones;
+            n = Math.round(n);
+            if(n < 3 || n % 3 !== 0){
+                document.getElementById("resultado").innerHTML = "n debe ser múltiplo de 3";
+                return;
+            }
+
+            var h = (b - a) / n;
+            var suma = eval(funcion.replace(/x/g, a)) + eval(funcion.replace(/x/g, b));
+            var x;
+
+            for(var i = 1; i < n; i++){
+                x = a + i * h;
+                if(i % 3 === 0){
+                    suma += 2 * eval(funcion.replace(/x/g, x));
+                } else {
+                    suma += 3 * eval(funcion.replace(/x/g, x));
+                }
+            }
+            suma *= 3 * h / 8;
+
+            document.getElementById("resultado").innerHTML = "El área bajo la curva por el método Simpson 3/8 es: " + suma.toFixed(4);
+        }
+
+        // Función que realiza las gráficas de la función que estamos integrando.
+        function graficar(funcionIntegrar, limiteInferior, limiteSuperior, iteraciones){
+            var xRange = [];
+            var yRange = [];
+            var dx = (limiteSuperior - limiteInferior) / iteraciones;
+            var x = limiteInferior;
+
+            for(var i = 0; i <= iteraciones; i++){
+                xRange.push(x);
+                yRange.push(eval(funcionIntegrar.replace(/x/g, x)));
+                x += dx;
+            }
+
+            var trace1 = {
+                x: xRange,
+                y: yRange,
+                type: 'scatter'
+            };
+
+            var data = [trace1];
+
+            Plotly.newPlot('grafico', data);
+        }
+    </script>
+</main>
+<footer>
+    <img src="../imagenes/logo.png" alt="Logo de Computo2">
+    <p class="copyright">
+        &#169 Jesús Alberto Gómez Huidor
+    </p>
+</footer>
+</body>
+</html>

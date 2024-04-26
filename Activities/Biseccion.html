@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Biseccion</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="../CosmicStyle.css">
+</head>
+<body>
+    <header>
+        <div class="cabecera">
+            <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../Activities.html">Actividades</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>Método de Bisección</h1>
+        <p>Ingrese una función matemática, el intervalo [a, b] y el número de iteraciones para encontrar una raíz.</p>
+        <div class="input-group">
+            <label for="function">Función f(x):</label>
+            <input type="text" id="function" value="Math.sin(x)-x">
+        </div>
+        <div class="input-group">
+            <label for="a">Límite inferior a:</label>
+            <input type="number" id="a" value="0.5">
+            <label for="b">Límite superior b:</label>
+            <input type="number" id="b" value="0.5">
+        </div>
+        <div class="input-group">
+            <label for="n">Número de iteraciones:</label>
+            <input type="number" id="n" value="5">
+        </div>
+        <button onclick="biseccion()">Calcular</button>
+
+        <div id="tableOutput"></div>
+
+        <div class="info-box">
+            <h3>Sobre el Método de Bisección</h3>
+            <p>El método de bisección es un procedimiento de búsqueda de raíces que repite la división de un intervalo en dos mitades y selecciona el subintervalo en el que la función cambia de signo. Esto garantiza la presencia de una raíz en el subintervalo elegido. Es un método sencillo y robusto para encontrar raíces de funciones continuas.</p>
+        </div>
+
+    </main>
+
+    <footer>
+        <img src="../imagenes/logo.png" alt="Logo de Computo2">
+        <p class="copyright">
+            &#169 Jesús Alberto Gómez Huidor
+        </p>
+    </footer>
+</body>
+</html>
+
+<script>
+    function biseccion(){
+        //Here we get the information from the inputs
+        funcion = document.getElementById("function").value;
+
+        a=parseFloat(document.getElementById("a").value);
+        b=parseFloat(document.getElementById("b").value);
+        n=parseFloat(document.getElementById("n").value);
+
+        //Text used to be storing the data from each iteration
+        textOne="<table><tr>" +
+            "<td>N</td>" +
+            "<td>X</td>" +
+            "<td>A</td>" +
+            "<td>B</td>" +
+            "</tr>";
+
+        //loops the n times getting closer to the zero on a graph searching a "root"
+        for (var i = 0; i < n; i++) {
+            xn=(a+b)/2;
+            textOne= textOne + "<tr><td>" + (i+1) + "</td><td>" + a + "</td><td>" + xn + "</td><td>" + b + "</td><td>";
+            fa=eval(funcion.replace(/x/g,a).replace(/--/,"+"));
+            fb=eval(funcion.replace(/x/g,b).replace(/--/,"+"));
+            fxn=eval(funcion.replace(/x/g,xn).replace(/--/,"+"));
+
+            //Checks if the left border was the closest or the right one redividing the border.
+            if(fa*fxn<0){
+                b=xn;
+            }else{
+                a=xn;
+            }
+        }
+        //Prints the table with the values of each iteration
+        textOne=textOne+"</table>";
+        document.getElementById("tableOutput").innerHTML=textOne;
+    }
+</script>

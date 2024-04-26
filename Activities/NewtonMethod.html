@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Metodo Newton</title>
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="../CosmicStyle.css">
+</head>
+<body>
+    <header>
+        <div class="cabecera">
+            <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../Activities.html">Actividades</a></li>
+                    <li><a href="contacto.html">Info_Alumno</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>Método de Newton para sistemas de ecuaciones</h1>
+        <div class="input-group">
+            <label>f1(x,y)=</label><input type="text" id="f1" value="(x*x)/4+(y*y)/2-1">
+            <label>f1x(x,y)=</label><input type="text" id="f1x" value="x/2">
+            <label>f1y(x,y)=</label><input type="text" id="f1y" value="y">
+        </div>
+        <div class="input-group">
+            <label>f2(x,y)=</label><input type="text" id="f2" value="x-1*y+1">
+            <label>f2x(x,y)=</label><input type="text" id="f2x" value="1">
+            <label>f2y(x,y)=</label><input type="text" id="f2y" value="-1">
+        </div>
+        <div class="input-group">
+            <label>x0=</label><input type="number" id="x0" value="-1.5">
+            <label>y0=</label><input type="number" id="y0" value="-0.5">
+            <label>n=</label><input type="number" id="n" value="1" min="1" max="1000">
+        </div>
+        <button onclick="newton()">Calcular</button>
+        <div id="output" class="tableOutput"></div>
+
+        <div class="info-box">
+            <p>Este método utiliza derivadas para encontrar raíces de un sistema de ecuaciones no lineales. Es necesario especificar la función y sus derivadas parciales.</p>
+        </div>
+    </main>
+    </main>
+
+    <footer>
+        <img src="../imagenes/logo.png" alt="Logo de Computo2">
+        <p class="copyright">
+            &#169 Jesús Alberto Gómez Huidor
+        </p>
+    </footer>
+</body>
+</html>
+
+<script>
+    function newton(){
+        //We declare each variable to be used in the Newton Method
+        f1=document.getElementById("f1").value;
+        f1x=document.getElementById("f1x").value;
+        f1y=document.getElementById("f1y").value;
+        f2=document.getElementById("f2").value;
+        f2x=document.getElementById("f2x").value;
+        f2y=document.getElementById("f2y").value;
+        x0=document.getElementById("x0").value;
+        y0=document.getElementById("y0").value;
+        n=document.getElementById("n").value;
+
+        //Text  line used to be storing the data from each iteration
+        textOne="<table><tr>" +
+            "<td>Iteration</td>" +
+            "<td>x0</td>" +
+            "<td>y0</td>" +
+            "</tr>";
+
+        //This for cycle evaluates the function values so in each loop you will be more close to
+        // the unknown values
+        for(i=0;i<n;i++){
+            ff1=eval(f1.replace(/x/g,x0).replace(/y/g,y0));
+            ff1x=eval(f1x.replace(/x/g,x0).replace(/y/g,y0));
+            ff1y=eval(f1y.replace(/x/g,x0).replace(/y/g,y0));
+            ff2=eval(f2.replace(/x/g,x0).replace(/y/g,y0));
+            ff2x=eval(f2x.replace(/x/g,x0).replace(/y/g,y0));
+            ff2y=eval(f2y.replace(/x/g,x0).replace(/y/g,y0));
+            det=ff1x*ff2y-ff1y*ff2x;
+            x=(ff1*ff2y-ff2*ff1y)*-1/det;
+            y=(ff2*ff1x-ff1*ff2x)*-1/det;
+            x0=eval(x+x0);
+            y0=eval(y+y0);
+
+            //saves the data of this iterations on the string.
+            textOne = textOne + "<tr><td>" + (i+1) + "</td><td>" + x0.toFixed(4) + "</td><td>" + y0.toFixed(4) + "</td>";
+        }
+        textOne = textOne + "</table>";
+        //Prints the table on the div "output"
+        document.getElementById("output").innerHTML=textOne;
+    }
+</script>

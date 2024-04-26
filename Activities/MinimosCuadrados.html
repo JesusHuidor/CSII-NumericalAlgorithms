@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mínimos cuadrados</title>
+        <link rel="stylesheet" href="../reset.css">
+        <link rel="stylesheet" href="../CosmicStyle.css">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="cabecera">
+                <h1><a href="../index.html"><img src="../imagenes/logo.png" alt="Logo para la página de computo"></a></h1>
+                <nav>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../Activities.html">Actividades</a></li>
+                        <li><a href="contacto.html">Info_Alumno</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <h1>Mínimos cuadrados</h1>
+
+            <form id="dataForm">
+                <label for="xValues">Valores de X (separados por comas):</label><br>
+                <input type="text" id="xValues" name="xValues"><br>
+                <label for="yValues">Valores de Y (separados por comas):</label><br>
+                <input type="text" id="yValues" name="yValues"><br><br>
+                <input type="button" value="Calcular y graficar" onclick="boton()">
+            </form>
+
+            <div id="grafico" style="height: 500px;"></div>
+
+            <h2>Resultados:</h2>
+            <p id="resultado"></p>
+
+            <div class="info-box">
+                <p>El método de <strong>Mínimos Cuadrados</strong> es una forma de regresión lineal que minimiza la suma de los cuadrados de los errores cometidos en los resultados de cada medición. Es ampliamente utilizado en estadísticas para la predicción y modelado de fenómenos.</p>
+            </div>
+
+
+            <script>
+                function boton(){
+                    // Obtener los valores de x y y del formulario
+                    var xValues = document.getElementById('xValues').value.split(',').map(Number);
+                    var yValues = document.getElementById('yValues').value.split(',').map(Number);
+
+                    // Funciones necesarias.
+                    graficar(xValues, yValues);
+                    calcularMinimosCuadrados(xValues, yValues);
+                }
+
+                function graficar(xValues, yValues) {
+                    // Configuración de los datos para Plotly
+                    var trace1 = {
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        x: xValues,
+                        y: yValues
+                    };
+
+                    var data = [trace1];
+
+                    // Configuración del layout del gráfico
+                    var layout = {
+                        title: 'Gráfico de Dispersión',
+                        xaxis: {
+                            title: 'Eje X'
+                        },
+                        yaxis: {
+                            title: 'Eje Y'
+                        }
+                    };
+
+                    // Crear el gráfico
+                    Plotly.newPlot('grafico', data, layout);
+
+                }
+                function calcularMinimosCuadrados(xValues, yValues) {
+
+                    // Verificar si los valores son números y si hay al menos dos puntos distintos
+                    if (!xValues.every(isFinite) || !yValues.every(isFinite) || xValues.length <= 1) {
+                        document.getElementById('resultado').innerHTML = "Por favor ingrese valores numéricos válidos y asegúrese de que haya al menos dos puntos distintos.";
+                        return;
+                    }
+
+                    // Calcular las medias de los valores x e y
+                    var xMean = xValues.reduce((a, b) => a + b, 0) / xValues.length;
+                    var yMean = yValues.reduce((a, b) => a + b, 0) / yValues.length;
+
+                    // Calcular la pendiente (m) y la intersección y (b)
+                    var numerator = xValues.reduce((sum, x, i) => sum + (x - xMean) * (yValues[i] - yMean), 0);
+                    var denominator = xValues.reduce((sum, x) => sum + Math.pow(x - xMean, 2), 0);
+
+                    // Verificar si el denominador es cero
+                    if (denominator === 0) {
+                        document.getElementById('resultado').innerHTML = "No es posible calcular la pendiente con un conjunto de puntos con la misma coordenada X.";
+                        return;
+                    }
+
+                    var m = numerator / denominator;
+                    var b = yMean - m * xMean;
+
+                    // Mostrar los resultados
+                    document.getElementById('resultado').innerHTML = "Pendiente (m): " + m + "<br>Intersección y (b): " + b;
+                }
+
+            </script>
+        </main>
+
+        <footer>
+            <img src="../imagenes/logo.png" alt="Logo de Computo2">
+            <p class="copyright">
+                &#169 Jesús Alberto Gómez Huidor
+            </p>
+        </footer>
+    </body>
+</html>
