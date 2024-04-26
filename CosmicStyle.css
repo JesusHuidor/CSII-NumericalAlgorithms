@@ -1,0 +1,377 @@
+.home-page body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #333345;
+    margin: 4px;
+    padding: 4px;
+}
+
+
+.home-page .header a {
+    color: #333345;
+    text-decoration: none;
+}
+
+.home-page nav ul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.home-page nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.home-page main {
+    padding: 20px;
+    background-color: #333345;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a2e;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+h1, h2 {
+    color: #FFF; /* Color del texto para los encabezados */
+    text-align: center; /* Centrar los encabezados */
+    font-size: 50px;
+}
+
+form {
+    background-color: #333345; /* Fondo para el formulario */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados para el formulario */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra alrededor del formulario */
+    margin: auto; /* Centrar el formulario horizontalmente */
+    width: 50%; /* Ancho del formulario */
+}
+
+input[type="text"] {
+    border: 1px solid #333345; /* Borde para los inputs de texto */
+    border-radius: 5px; /* Bordes redondeados para los inputs de texto */
+    padding: 10px;
+    width: calc(100% - 22px); /* Ancho del input ajustado para el padding y el borde */
+    margin-bottom: 10px; /* Espacio debajo de los inputs */
+}
+
+input[type="button"] {
+    background-color: #2980B9; /* Fondo del botón */
+    color: white; /* Color de texto del botón */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer; /* Cursor en forma de mano al pasar sobre el botón */
+}
+
+input[type="button"]:hover {
+    background-color: #21618C; /* Color del botón al pasar el mouse */
+}
+
+#grafico {
+    margin-top: 20px;
+    background-color: #333345;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#resultado {
+    background-color: #333345;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+header {
+    background-color: #262638;
+    padding: 20px 0;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.cabecera img{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%; /* This will make it a circle */
+}
+
+nav ul {
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li {
+    list-style: none;
+    font-size: 40px;
+}
+
+nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #333345;
+}
+
+main {
+    width: 90%;
+    margin: 30px auto;
+}
+
+.Activities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.Activities li {
+    background-color: #333345;
+    border-radius: 20px;
+    padding: 20px;
+    transition: transform 0.3s;
+}
+
+.Activities li:hover {
+    transform: translateY(-10px);
+}
+
+.Activities li a {
+    text-decoration: none;
+    color: #FFFFFF;
+    display: block;
+}
+
+.Activities li img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.productoDesc, .productosDescr {
+    margin: 10px 0;
+    color: #b3b3cc;
+}
+
+.productoPrecio {
+    background-color: #262638;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+/* Estilo específico para inputs de matrices */
+.matrix-input {
+    width: 50px; /* Ancho ajustado para que se acomoden como matriz */
+    padding: 5px; /* Padding suficiente para que sean fáciles de seleccionar */
+    margin: 2px; /* Margen reducido para mantener los inputs juntos */
+    text-align: center; /* Texto centrado para una apariencia uniforme */
+}
+
+/* Estilo para los contenedores de filas de la matriz para alinearlos como matriz */
+.matrix-row {
+    display: flex; /* Usando flexbox para alinear los inputs */
+    justify-content: center; /* Centrar los inputs horizontalmente */
+}
+
+/* Restaurar cualquier estilo global que pueda afectar la vista de matriz */
+input[type="number"] {
+    width: auto; /* Restablecer el ancho para tipos específicos de input si fue modificado globalmente */
+    margin: 5px; /* Margen estándar para separación */
+}
+
+input[type="number"] {
+    width: 60px; /* Anchura fija para cada input */
+    padding: 8px; /* Padding para mejor clicabilidad y visibilidad */
+    margin-right: 4px; /* Espaciado entre los inputs */
+    text-align: center; /* Alineación del texto dentro del input */
+    border: 2px solid #ddd; /* Bordes sutiles */
+    border-radius: 4px; /* Bordes redondeados */
+    transition: border-color 0.3s; /* Transición suave del color del borde */
+}
+
+input[type="number"]:focus {
+    border-color: #0056b3; /* Cambio de color al enfocar */
+    outline: none; /* Remover el outline predeterminado */
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #007bff; /* Color de fondo azul */
+    color: white; /* Texto en color blanco */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; /* Cursor tipo puntero para indicar clicabilidad */
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+button:hover {
+    background-color: #0056b3; /* Cambio de color al pasar el mouse */
+}
+
+.info-box {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f4f4f4; /* Color de fondo claro para la caja de información */
+    border-left: 5px solid #007bff; /* Borde izquierdo para destacar */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.info-box h3 {
+    color: #333; /* Color oscuro para el título */
+}
+
+.info-box p {
+    color: #666; /* Color más suave para el texto */
+    font-size: 16px; /* Tamaño de fuente adecuado para la lectura */
+    line-height: 1.6; /* Espaciado de línea para mejorar la legibilidad */
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#tableOutput {
+    margin-top: 20px;
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    color: black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Estilos para las tablas de resultados con la clase 'tableOutput' */
+.tableOutput {
+    width: 100%; /* Ajustar la tabla a la anchura del contenedor */
+    margin: 20px auto; /* Centrar la tabla y dar espacio alrededor */
+    border-collapse: collapse; /* Para que los bordes de las celdas se fusionen */
+    background-color: #ffffff; /* Fondo blanco para las tablas */
+    color: #333; /* Color de texto oscuro para mejorar la legibilidad */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil para dar profundidad */
+}
+
+.tableOutput th, .tableOutput td {
+    border: 1px solid #ccc; /* Bordes sutiles para cada celda */
+    padding: 8px; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación del texto a la izquierda */
+}
+
+.tableOutput th {
+    background-color: #f4f4f4; /* Color de fondo para los encabezados de tabla */
+    color: #333; /* Color de texto para los encabezados */
+    font-weight: bold; /* Texto en negrita para los encabezados */
+}
+
+.tableOutput tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternar el color de fondo para las filas pares */
+}
+.contact-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    color: black;
+}
+
+.contact-card h2 {
+    color: #333;
+}
+
+.contact-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-card li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.contact-card a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.contact-card a:hover {
+    text-decoration: underline;
+}
+
+
+footer {
+    background-color: #262638;
+    padding: 20px 0;
+    box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-top: 30px;
+}
+
+footer img {
+    width: 60px;
+    margin-bottom: 10px;
+    height: 60px;
+    border-radius: 50%; /* This will make it a circle */
+}
+
+.copyright {
+    color: #b3b3cc;
+    margin-top: 10px;
+}
